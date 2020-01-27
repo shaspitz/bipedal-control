@@ -20,15 +20,15 @@ function tau = studentController(t, s, model, params)
     
     [r_com, v_com] = computeComPosVel(q, dq, model);
         
-    % Gains optimized for constant force
+    % PD Gains 
     
-	kpx = 1000; % best so far: 1000 w/ 300 on kdx (can reject x forces up to 15)
+	kpx = 1000;
     kdx = 300;
     
-    kpy = 1000; % best so far: 1000 w/ 300 on kdy (can reject y forces up to 15)
+    kpy = 1000;
     kdy = 300;
     
-    kpz = 1000; % best so far: 1000 w/ 300 on kdz
+    kpz = 1000;
     kdz = 300;
     
     kp = diag([kpx;kpy;kpz],0);
@@ -91,13 +91,13 @@ function tau = studentController(t, s, model, params)
     alpha3 = 10e-6;
     I = [eye(3) zeros(3)];
     O = [zeros(3) eye(3)];
-% 
+
     H1 = 2*(alpha1*G'*I'*I*G + alpha2*G'*O'*O*G + alpha3);
     H1=(H1+H1')/2;
     f1 = (-2*alpha1*Wdes'*I'*I*G - 2*alpha2*Wdes'*O'*O*G);
    
-   % Constraints
-   % Friction Cone Approximation link
+   % Constraints with linearized friction cone 
+   % See link below for implementation
    % https://scaron.info/teaching/friction-cones.html
    mu = 0.8/(sqrt(2));
    A = [1 0 -mu zeros(1, 9);
