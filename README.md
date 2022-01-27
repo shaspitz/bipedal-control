@@ -1,4 +1,4 @@
-# ME292B-Midterm-Project
+# Bipedal Robot Balancing Control
 
 Balancing controller is located under \cassie\studentController.m
 
